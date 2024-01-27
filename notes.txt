@@ -12,6 +12,7 @@
   multer - files upload 
   nodemailer -node  mailing 
   mongoose - mongo db connection - schema model - save doc - queries(find updateOne deleteOne etc) 
-
+  cors : 
+  dotenv - to create .env files [env var ]
 router
 1   express - http request - get post put patch delete 

@@ -4,7 +4,7 @@ const cors=require('cors')
 const app = express()
 const dotenv = require('dotenv')
 dotenv.config()
-const port = process.env.PORT_NO
+const port = process.env.PORT_NO || 8080
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
