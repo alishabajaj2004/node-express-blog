@@ -6,8 +6,7 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv')
 dotenv.config()
-// mongoose.connect('mongodb://127.0.0.1:27017/blogDB');
-// mongoose.connect("mongodb+srv://alishatech2004:MhnlLykgv09V1Zml@cluster0.gckshfe.mongodb.net/?retryWrites=true&w=majority")
+
 mongoose.connect(process.env.MONGODB_CONNECT_URI)
 
 // to find all user
@@ -15,13 +14,13 @@ router.get('/', (req, res) => {
 User.find().then(( result) => {
   res.send(result)
 }) })
-// to find only id by once // view profile
+
 router.get('/:id', (req, res) => {
     User.findOne({_id:req.params.id}).then(( result) => {
         res.send(result)
   })
 })
-  // to save user info // register
+
   router.post('/', async (req, res) => {
     let b=req.body;
     const user= await User.findOne({emailid:b.emailid})
@@ -103,7 +102,6 @@ router.patch('/resetpassword/:emailid', async(req, res) => {
 })
 })
 
-//node mailer simple mail transfer protocoal with auto generated password
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
@@ -123,7 +121,4 @@ async function main(obj) {
   console.log("Message sent: %s", info.messageId);
 }
 
-
 module.exports=router;
-
-// A1A1 g245

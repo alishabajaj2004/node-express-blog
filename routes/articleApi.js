@@ -2,10 +2,9 @@ const express = require('express')
 const router = express.Router();
 const mongoose = require('mongoose');
 const Article = require('../models/article')
-// mongoose.connect('mongodb://127.0.0.1:27017/blogDB');
+
 const dotenv = require('dotenv')
 dotenv.config()
-// mongoose.connect("mongodb+srv://alishatech2004:MhnlLykgv09V1Zml@cluster0.gckshfe.mongodb.net/?retryWrites=true&w=majority")
 mongoose.connect(process.env.MONGODB_CONNECT_URI)
 const multer  = require('multer')
 

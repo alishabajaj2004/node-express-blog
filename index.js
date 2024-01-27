@@ -15,18 +15,14 @@ const Admin=require('./routes/adminapi')
 const User=require('./routes/userapi')
 const Category=require('./routes/categoryapi')
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
 res.send('Hello World')
 })
-  
-// -------------------------------------------------
-// console.log(process.env)
-// --------------------------
+
 app.use('/article',Article)
 app.use('/admin',Admin)
 app.use('/category',Category)
 app.use('/user',User)
-//localhost:3000/user get post
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
