@@ -15,6 +15,10 @@ const Admin=require('./routes/adminapi')
 const User=require('./routes/userapi')
 const Category=require('./routes/categoryapi')
 
+router.get('/', (req, res) => {
+res.send('Hello World')
+})
+  
 // -------------------------------------------------
 // console.log(process.env)
 // --------------------------
