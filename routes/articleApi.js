@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router();
 const mongoose = require('mongoose');
 const Article = require('../models/article')
+const verify=require("./../routes/verifytoken");
+const Averify=require("./../routes/adverifytoken");
 
 const dotenv = require('dotenv')
 dotenv.config()
@@ -44,7 +46,7 @@ router.get('/category/:category', (req, res) => {
  
   })
 //article to save
-  router.post('/',upload.single('image'), (req, res) => {
+  router.post('/',upload.single('image'), verify,(req, res) => {
     let b=req.body;
     const data=new Article({
         title:b.title,
@@ -59,13 +61,13 @@ router.get('/category/:category', (req, res) => {
     } );
   })
 // to delete by id
-  router.delete('/:id', (req, res) => {
+  router.delete('/:id',verify, (req, res) => {
     Article.deleteOne({_id:req.params.id}).then((result)=>{
         res.send(result)
     })
   })
 // articles to update by id
-  router.patch('/:id', (req, res) => {
+  router.patch('/:id',verify, (req, res) => {
     let b=req.body;
     let data={
         title:b.title,
@@ -78,13 +80,13 @@ router.get('/category/:category', (req, res) => {
     })
   })
   //article to update status
-  router.patch('/status/:id', (req, res) => {
+  router.patch('/status/:id',Averify, (req, res) => {
     Article.updateOne({_id:req.params.id},{published:req.body.published}).then((result)=>{
         res.send(result)
   })
 })
 //article to update image
-router.patch('/image/:id',upload.single('image'), (req, res) => {
+router.patch('/image/:id',upload.single('image'),verify, (req, res) => {
   Article.updateOne({_id:req.params.id},{image:req.file.originalname}).then((result)=>{
       res.send(result)
 })

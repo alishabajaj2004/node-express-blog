@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const User = require('../models/user')
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv')
+const jwt=require('jsonwebtoken');
+const verify=require("./../routes/verifytoken");
 dotenv.config()
 
 mongoose.connect(process.env.MONGODB_CONNECT_URI)
@@ -34,6 +36,7 @@ router.get('/:id', (req, res) => {
         emailid:b.emailid,
         phoneno:b.phoneno,
     })
+    
     data.save().then((result)=>{ 
       if(result){
       let msg="<h3> Hi "+b.fullName+"</h3><p>Welcome On Board , Enjoy Writing !</p><p> Regards Alisha</p>"
@@ -53,11 +56,15 @@ router.get('/:id', (req, res) => {
     const match = await bcrypt.compare(b.password, user.password);
     if(!match)
     return res.send({response:'Invalid Password ',status:false});
+
+    
+    const token=await jwt.sign({_id:user._id},process.env.TOKEN_STRING);
+res.header("auth_token",token)
   res.send({response:'Login Successful',status:true,userid:user._id})
 })
 
   // to update user info - edit profile 
-  router.patch('/:id', (req, res) => {
+  router.patch('/:id', verify, (req, res) => {
     let b=req.body;
     let data={
       fullName:b.fullName,
@@ -72,7 +79,7 @@ router.get('/:id', (req, res) => {
     })
   })
   //change password
-  router.patch('/password/:id', async(req, res) => {
+  router.patch('/password/:id', verify, async(req, res) => {
     const pwd = await bcrypt.hash(req.body.password, 10);
     User.updateOne({_id:req.params.id},{password:pwd}).then((result)=>{
         res.send(result)

@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Category = require('../models/category')
 const dotenv = require('dotenv')
+const Averify=require("./../routes/adverifytoken");
+
 dotenv.config()
 
 mongoose.connect(process.env.MONGODB_CONNECT_URI)
@@ -18,7 +20,7 @@ router.get('/:id', (req, res) => {
   })
 })
 //save 
-  router.post('/', (req, res) => {
+  router.post('/',Averify, (req, res) => {
     let b=req.body;
     const data=new Category({
         title:b.title
@@ -29,14 +31,14 @@ router.get('/:id', (req, res) => {
     }    
     );
   })
-  router.delete('/:id', (req, res) => {
+  router.delete('/:id', Averify,(req, res) => {
     Category.deleteOne({_id:req.params.id}).then((result)=>{
         if(result.acknowledged&&result.deletedCount==1)
         res.send({response:'Record Deleted',status:true})
     })
   })
 
-  router.patch('/:id', (req, res) => {
+  router.patch('/:id',Averify, (req, res) => {
     let b=req.body;
     let data={
         title:b.title}
